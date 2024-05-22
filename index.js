@@ -1,29 +1,25 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const db = require('./db');
-
 const app = express();
+const conn = require('./db/conn');
+require('dotenv').config();
 
-app.use(cors({ origin: 'https://juliafullstack.site' }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
 
-app.post('/cadastrar', (req, res) => {
-  const { primeiroNome, segundoNome, emailUsuario, senhaHash } = req.body;
+// Rotas
+const UserRoutes = require('./routes/UserRoutes');
+// Adicione outras rotas aqui
 
-  db.query(
-    'INSERT INTO Usuario (primeiroNome, segundoNome, emailUsuario, senhaHash) VALUES (?, ?, ?, ?)',
-    [primeiroNome, segundoNome, emailUsuario, senhaHash],
-    (err, result) => {
-      if (err) {
-        console.error('Erro ao cadastrar usuário:', err);
-        return res.status(500).json({ error: 'Erro ao cadastrar usuário.' });
-      }
+app.use('/users', UserRoutes);
 
-      console.log('Usuário cadastrado com sucesso:', result);
-      res.status(200).json({ message: 'Usuário cadastrado com sucesso!' });
-    }
-  );
-});
+const PORT = process.env.PORT || 8000;  // Definindo a variável PORT
 
-module.exports = app;
+conn
+  .sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));

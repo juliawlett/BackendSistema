@@ -10,18 +10,7 @@
     {
       "src": "/(.*)",
       "dest": "/index.js"
-    },
-    {
-      "src": "/cadastrar",
-      "methods": [
-        "POST"
-      ],
-      "dest": "/cadastrar.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://juliafullstack.site",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
     }
   ]
 }
+
