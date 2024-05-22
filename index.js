@@ -5,7 +5,19 @@ const conn = require('./db/conn');
 require('dotenv').config();
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
+
+
+const allowedOrigins = [process.env.FRONTEND_URL, 'https://juliafullstack.site'];
+app.use(cors({
+  credentials: true,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 // Rotas
 const UserRoutes = require('./routes/UserRoutes');
