@@ -11,8 +11,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
   });
-  
+
 app.use(cors());
+app.use(cors({ origin: 'https://juliafullstack.site' }));
 
 app.use(bodyParser.json());
 
