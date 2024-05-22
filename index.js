@@ -4,9 +4,7 @@ const cors = require('cors'); // Importe o pacote 'cors'
 const db = require('./db');
 
 const app = express();
-const port = 3000;
 
-// Use o middleware cors
 app.use(cors());
 
 app.use(bodyParser.json());
@@ -24,8 +22,5 @@ app.post('/cadastrar', (req, res) => {
       res.status(200).json({ message: 'Usuário cadastrado com sucesso!' });
     });
   });
-  
 
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
+module.exports = app;
